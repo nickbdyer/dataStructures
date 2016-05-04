@@ -26,7 +26,7 @@ class Bracket {
     int position;
 }
 
-class CheckBrackets {
+class check_brackets {
     public static void main(String[] args) throws IOException {
         check(new InputStreamReader(System.in), new PrintStream(System.out));
     }
@@ -46,17 +46,20 @@ class CheckBrackets {
 
             if (isClosingBracket(next)) {
                 if (opening_brackets_stack.isEmpty()) {
-                    opening_brackets_stack.push(new Bracket(next, position + 1));
+                    output.print(position + 1);
+                    unmatchedClosingBracketFound = true;
+                    break;
                 } else if (bracketMatchesTopOfStack(opening_brackets_stack, next)) {
                     opening_brackets_stack.pop();
                 } else {
                     output.print(position + 1);
                     unmatchedClosingBracketFound = true;
+                    break;
                 }
             }
         }
 
-        if (opening_brackets_stack.isEmpty()) {
+        if (opening_brackets_stack.isEmpty() && !unmatchedClosingBracketFound) {
             output.print("Success");
         } else if (!unmatchedClosingBracketFound){
             output.print(opening_brackets_stack.peek().position);
