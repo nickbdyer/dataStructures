@@ -34,33 +34,45 @@ class CheckBrackets {
     public static void check(InputStreamReader input, PrintStream output) throws IOException {
         BufferedReader reader = new BufferedReader(input);
         String text = reader.readLine();
-        Boolean unMatchedBracketFound = false;
+        Boolean unmatchedClosingBracketFound = false;
 
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
 
-            if (next == '(' || next == '[' || next == '{') {
+            if (isOpeningBracket(next)) {
                 opening_brackets_stack.push(new Bracket(next, position + 1));
             }
 
-            if (next == ')' || next == ']' || next == '}') {
+            if (isClosingBracket(next)) {
                 if (opening_brackets_stack.isEmpty()) {
                     opening_brackets_stack.push(new Bracket(next, position + 1));
-                } else if (opening_brackets_stack.peek().Match(next)) {
+                } else if (bracketMatchesTopOfStack(opening_brackets_stack, next)) {
                     opening_brackets_stack.pop();
                 } else {
                     output.print(position + 1);
-                    unMatchedBracketFound = true;
+                    unmatchedClosingBracketFound = true;
                 }
             }
         }
 
         if (opening_brackets_stack.isEmpty()) {
             output.print("Success");
-        } else if (!unMatchedBracketFound){
+        } else if (!unmatchedClosingBracketFound){
             output.print(opening_brackets_stack.peek().position);
         }
 
    }
+
+    public static boolean bracketMatchesTopOfStack(Stack<Bracket> opening_brackets_stack, char next) {
+        return opening_brackets_stack.peek().Match(next);
+    }
+
+    public static boolean isClosingBracket(char next) {
+        return next == ')' || next == ']' || next == '}';
+    }
+
+    public static boolean isOpeningBracket(char next) {
+        return next == '(' || next == '[' || next == '{';
+    }
 }
