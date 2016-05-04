@@ -84,4 +84,20 @@ public class CheckBracketsTest {
         assertEquals("Success", outContent.toString());
     }
 
+    @Test
+    public void unmatchedBracketInTextIsUnbalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("foo(bar[i)".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("10", outContent.toString());
+    }
+
+    @Test
+    public void onlyClosingBracketIsUnbalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("}".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("1", outContent.toString());
+    }
+
 }

@@ -45,7 +45,9 @@ class CheckBrackets {
             }
 
             if (next == ')' || next == ']' || next == '}') {
-                if (opening_brackets_stack.peek().Match(next)) {
+                if (opening_brackets_stack.isEmpty()) {
+                    opening_brackets_stack.push(new Bracket(next, position + 1));
+                } else if (opening_brackets_stack.peek().Match(next)) {
                     opening_brackets_stack.pop();
                 } else {
                     output.print(position + 1);
