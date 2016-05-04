@@ -76,4 +76,12 @@ public class CheckBracketsTest {
         assertEquals("3", outContent.toString());
     }
 
+    @Test
+    public void twoBracketsInOtherTextAreBalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("foo(bar)".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Success", outContent.toString());
+    }
+
 }
