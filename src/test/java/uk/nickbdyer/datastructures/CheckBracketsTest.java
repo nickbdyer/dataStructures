@@ -68,4 +68,12 @@ public class CheckBracketsTest {
         assertEquals("1", outContent.toString());
     }
 
+    @Test
+    public void noClosingBracketNestedIsUnbalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("{[}".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("3", outContent.toString());
+    }
+
 }

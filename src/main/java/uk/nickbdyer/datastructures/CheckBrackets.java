@@ -34,6 +34,7 @@ class CheckBrackets {
     public static void check(InputStreamReader input, PrintStream output) throws IOException {
         BufferedReader reader = new BufferedReader(input);
         String text = reader.readLine();
+        Boolean unMatchedBracketFound = false;
 
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
         for (int position = 0; position < text.length(); ++position) {
@@ -48,13 +49,14 @@ class CheckBrackets {
                     opening_brackets_stack.pop();
                 } else {
                     output.print(position + 1);
+                    unMatchedBracketFound = true;
                 }
             }
         }
 
         if (opening_brackets_stack.isEmpty()) {
             output.print("Success");
-        } else {
+        } else if (!unMatchedBracketFound){
             output.print(opening_brackets_stack.peek().position);
         }
 
