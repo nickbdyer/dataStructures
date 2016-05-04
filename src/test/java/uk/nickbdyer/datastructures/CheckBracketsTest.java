@@ -8,8 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class CheckBracketsTest {
 
@@ -20,12 +19,53 @@ public class CheckBracketsTest {
     public void setUp() {
         outContent = new ByteArrayOutputStream();
     }
+
     @Test
     public void twoSquareBracketsAreBalanced() throws Exception {
         CheckBrackets checker = new CheckBrackets();
         inContent = new ByteArrayInputStream("[]".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertThat(outContent.toString(), containsString("Success"));
+        assertEquals("Success", outContent.toString());
+    }
+
+    @Test
+    public void twoSquareBracketsAndTwoCurlyBracketsAreBalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("{}[]".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Success", outContent.toString());
+    }
+
+    @Test
+    public void twoSquareBracketsWithNestedTwoBracketsAreBalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("[()]".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Success", outContent.toString());
+    }
+
+    @Test
+    public void twoBracketsWithNestedTwoBracketsAreBalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("(())".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Success", outContent.toString());
+    }
+
+    @Test
+    public void twoNestedBracketsAndExtraBracketsAreBalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("{[]}()".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Success", outContent.toString());
+    }
+
+    @Test
+    public void noClosingBracketIsUnbalanced() throws Exception {
+        CheckBrackets checker = new CheckBrackets();
+        inContent = new ByteArrayInputStream("{".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("1", outContent.toString());
     }
 
 }

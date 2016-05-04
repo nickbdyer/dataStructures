@@ -40,14 +40,23 @@ class CheckBrackets {
             char next = text.charAt(position);
 
             if (next == '(' || next == '[' || next == '{') {
-                // Process opening bracket, write your code here
+                opening_brackets_stack.push(new Bracket(next, position + 1));
             }
 
             if (next == ')' || next == ']' || next == '}') {
-                // Process closing bracket, write your code here
+                if (opening_brackets_stack.peek().Match(next)) {
+                    opening_brackets_stack.pop();
+                } else {
+                    output.print(position + 1);
+                }
             }
         }
-        output.println("Success");
 
-    }
+        if (opening_brackets_stack.isEmpty()) {
+            output.print("Success");
+        } else {
+            output.print(opening_brackets_stack.peek().position);
+        }
+
+   }
 }
