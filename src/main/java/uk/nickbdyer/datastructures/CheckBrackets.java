@@ -3,6 +3,7 @@ package uk.nickbdyer.datastructures;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.Stack;
 
 class Bracket {
@@ -27,8 +28,11 @@ class Bracket {
 
 class CheckBrackets {
     public static void main(String[] args) throws IOException {
-        InputStreamReader input_stream = new InputStreamReader(System.in);
-        BufferedReader reader = new BufferedReader(input_stream);
+        check(new InputStreamReader(System.in), new PrintStream(System.out));
+    }
+
+    public static void check(InputStreamReader input, PrintStream output) throws IOException {
+        BufferedReader reader = new BufferedReader(input);
         String text = reader.readLine();
 
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
@@ -43,7 +47,7 @@ class CheckBrackets {
                 // Process closing bracket, write your code here
             }
         }
+        output.println("Success");
 
-        // Printing answer, write your code here
     }
 }
