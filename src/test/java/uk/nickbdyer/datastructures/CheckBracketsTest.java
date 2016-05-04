@@ -3,14 +3,11 @@ package uk.nickbdyer.datastructures;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class CheckBracketsTest {
+public class checkbracketsTest {
 
     private ByteArrayOutputStream outContent;
     private ByteArrayInputStream inContent;
@@ -22,7 +19,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoSquareBracketsAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("[]".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -30,7 +27,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoSquareBracketsAndTwoCurlyBracketsAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("{}[]".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -38,7 +35,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoSquareBracketsWithNestedTwoBracketsAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("[()]".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -46,7 +43,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoBracketsWithNestedTwoBracketsAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("(())".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -54,7 +51,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoNestedBracketsAndExtraBracketsAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("{[]}()".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -62,7 +59,7 @@ public class CheckBracketsTest {
 
     @Test
     public void noClosingBracketIsUnbalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("{".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("1", outContent.toString());
@@ -70,7 +67,7 @@ public class CheckBracketsTest {
 
     @Test
     public void noClosingBracketNestedIsUnbalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("{[}".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("3", outContent.toString());
@@ -78,7 +75,7 @@ public class CheckBracketsTest {
 
     @Test
     public void twoBracketsInOtherTextAreBalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("foo(bar)".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Success", outContent.toString());
@@ -86,7 +83,7 @@ public class CheckBracketsTest {
 
     @Test
     public void unmatchedBracketInTextIsUnbalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("foo(bar[i)".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("10", outContent.toString());
@@ -94,10 +91,33 @@ public class CheckBracketsTest {
 
     @Test
     public void onlyClosingBracketIsUnbalanced() throws Exception {
-        CheckBrackets checker = new CheckBrackets();
+        check_brackets checker = new check_brackets();
         inContent = new ByteArrayInputStream("}".getBytes());
         checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("1", outContent.toString());
     }
 
+    @Test
+    public void centrallyLocatedUnmatchedClosingBracketIsUnbalanced() throws Exception {
+        check_brackets checker = new check_brackets();
+        inContent = new ByteArrayInputStream("[[]}]{}".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("4", outContent.toString());
+    }
+
+    @Test
+    public void multipleWrongBracketsIsUnbalanced() throws IOException {
+        check_brackets checker = new check_brackets();
+        inContent = new ByteArrayInputStream("[]](".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("3", outContent.toString());
+    }
+
+    @Test
+    public void closingBracketNestedIsUnbalanced() throws IOException {
+        check_brackets checker = new check_brackets();
+        inContent = new ByteArrayInputStream("[}]]".getBytes());
+        checker.check(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("2", outContent.toString());
+    }
 }
