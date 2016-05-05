@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -24,7 +25,7 @@ public class tree_height {
     public void run(InputStreamReader input, PrintStream output) throws IOException {
         TreeHeight tree = new TreeHeight();
         tree.read(input);
-        output.println(tree.computeHeight());
+        output.println(tree.computeHeight(tree.getRoot()));
     }
 
     class Node {
@@ -54,6 +55,11 @@ public class tree_height {
     class TreeHeight {
         int n;
         int parent[];
+        Node root;
+
+        Node getRoot() {
+            return root;
+        }
 
         void read(InputStreamReader input) throws IOException {
             FastScanner in = new FastScanner(input);
@@ -73,7 +79,7 @@ public class tree_height {
             }
             for (int i = 0; i < n; i++) {
                 if (parent[i] == -1) {
-
+                    root = nodeList.get(i);
                 } else {
                     nodeList.get(i).setParent(nodeList.get(parent[i]));
                 }
@@ -87,9 +93,13 @@ public class tree_height {
             }
         }
 
-        int computeHeight() {
-            if (n == 0) return 0;
-            return 1;
+        int computeHeight(Node root) {
+            if (root.countChildren() == 0) return 0;
+            List<Integer> childHeights = new ArrayList<Integer>();
+            for (Node child : root.children) {
+               childHeights.add(computeHeight(child));
+            }
+            return 1 + Collections.max(childHeights);
         }
 
     }
