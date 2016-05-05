@@ -1,7 +1,12 @@
 package uk.nickbdyer.datastructures;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class tree_height {
 
@@ -22,8 +27,31 @@ public class tree_height {
         output.println(tree.computeHeight());
     }
 
+    class Node {
+        private int data;
+        private Node parent;
+        private List<Node> children;
 
-    public class TreeHeight {
+        public Node(int data) {
+            this.data = data;
+            this.children = new ArrayList<Node>();
+        }
+
+        public void addChild(Node child) {
+            children.add(child);
+        }
+
+        public void setParent(Node parent) {
+            this.parent = parent;
+        }
+
+        public int countChildren() {
+           return children.size();
+        }
+    }
+
+
+    class TreeHeight {
         int n;
         int parent[];
 
@@ -34,21 +62,36 @@ public class tree_height {
             for (int i = 0; i < n; i++) {
                 parent[i] = in.nextInt();
             }
+            createTree();
+        }
+
+        void createTree() {
+            List<Node> nodeList = new ArrayList<Node>();
+            for (int i = 0; i < n; i++) {
+                Node node = new Node(i);
+                nodeList.add(node);
+            }
+            for (int i = 0; i < n; i++) {
+                if (parent[i] == -1) {
+
+                } else {
+                    nodeList.get(i).setParent(nodeList.get(parent[i]));
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                if (parent[i] == -1) {
+
+                } else {
+                    nodeList.get(parent[i]).addChild(nodeList.get(i));
+                }
+            }
         }
 
         int computeHeight() {
-//            if tree = nil: return 0
-//            return 1 + Max(Height(tree.left), Height(tree .right ))
-
-            int maxHeight = 0;
-            for (int vertex = 0; vertex < n; vertex++) {
-                int height = 0;
-                for (int i = vertex; i != -1; i = parent[i])
-                    height++;
-                maxHeight = Math.max(maxHeight, height);
-            }
-            return maxHeight;
+            if (n == 0) return 0;
+            return 1;
         }
+
     }
 
     class FastScanner {
