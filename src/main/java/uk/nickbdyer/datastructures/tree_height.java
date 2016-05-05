@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class tree_height {
@@ -31,77 +28,85 @@ public class tree_height {
     class Node {
         private int data;
         private Node parent;
-        private List<Node> children;
 
         public Node(int data) {
             this.data = data;
-            this.children = new ArrayList<Node>();
         }
 
-        public void addChild(Node child) {
-            children.add(child);
+        void setParent(Node parent) {
+            this.parent = parent;
         }
 
-        public int countChildren() {
-           return children.size();
-        }
     }
 
 
     class TreeHeight {
         int n;
         int parent[];
-        Node root;
-
-        Node getRoot() {
-            return root;
-        }
+        int heights[];
+//        Node root;
+//
+//        Node getRoot() {
+//            return root;
+//        }
 
         void read(InputStreamReader input) throws IOException {
             FastScanner in = new FastScanner(input);
             n = in.nextInt();
             parent = new int[n];
+            heights = new int[n];
             for (int i = 0; i < n; i++) {
                 parent[i] = in.nextInt();
             }
-            createTree();
+//            createTree();
         }
 
         int computeHeight() {
             // Replace this code with a faster implementation
             int maxHeight = 0;
-            for (int vertex = 0; vertex < n; vertex++) {
+            int numOperations = 0;
+            for (int node = 0; node < n; node++) {
                 int height = 0;
-                for (int i = vertex; i != -1; i = parent[i])
+                for (int i = node; i != -1; i = parent[i]) {
+                    if (heights[i] != 0) {
+                        height = height + heights[i];
+                        break;
+                    }
                     height++;
+                    numOperations++;
+                }
+                heights[node] = height;
                 maxHeight = Math.max(maxHeight, height);
             }
+            System.out.println(numOperations);
             return maxHeight;
         }
 
-        void createTree() {
-            List<Node> nodeList = new ArrayList<Node>();
-            for (int i = 0; i < n; i++) {
-                Node node = new Node(i);
-                nodeList.add(node);
-            }
-            for (int i = 0; i < n; i++) {
-                if (parent[i] == -1) {
-                    root = nodeList.get(i);
-                } else {
-                    nodeList.get(parent[i]).addChild(nodeList.get(i));
-                }
-            }
-        }
-
-        int newComputeHeight(Node root) {
-            if (root.countChildren() == 0) return 1;
-            List<Integer> childHeights = new ArrayList<Integer>();
-            for (Node child : root.children) {
-               childHeights.add(newComputeHeight(child));
-            }
-            return 1 + Collections.max(childHeights);
-        }
+//        void createTree() {
+//            List<Node> nodeList = new ArrayList<Node>();
+//            for (int i = 0; i < n; i++) {
+//                Node node = new Node(i);
+//                nodeList.add(node);
+//            }
+//            for (int i = 0; i < n; i++) {
+//                if (parent[i] == -1) {
+//                    root = nodeList.get(i);
+//                } else {
+//                    nodeList.get(i).setParent(nodeList.get(parent[i]));
+//                }
+//            }
+//        }
+//
+//        int newComputeHeight(Node root) {
+//            int maxHeight = 0;
+//            for (int node = 0; node < n; node++) {
+//                int height = 0;
+//                for (int i = node; i != -1; i = parent[i])
+//                    height++;
+//                maxHeight = Math.max(maxHeight, height);
+//            }
+//            return maxHeight;
+//        }
 
     }
 
