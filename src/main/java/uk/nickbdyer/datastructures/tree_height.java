@@ -22,7 +22,7 @@ public class tree_height {
     public void run(InputStreamReader input, PrintStream output) throws IOException {
         TreeHeight tree = new TreeHeight();
         tree.read(input);
-        output.println(tree.computeHeight(tree.getRoot()));
+        output.println(tree.computeHeight());
     }
 
     class Node {
@@ -38,24 +38,20 @@ public class tree_height {
 
     }
 
-
     class TreeHeight {
         int n;
         int parent[];
+        int heights[];
         Node root;
-
-        Node getRoot() {
-            return root;
-        }
 
         void read(InputStreamReader input) throws IOException {
             FastScanner in = new FastScanner(input);
             n = in.nextInt();
             parent = new int[n];
+            heights = new int[n];
             for (int i = 0; i < n; i++) {
                 parent[i] = in.nextInt();
             }
-            createTree();
         }
 
         void createTree() {
@@ -73,7 +69,24 @@ public class tree_height {
             }
         }
 
-        int computeHeight(Node root) {
+        int computeHeight() {
+            int maxHeight = 0;
+            for (int node = 0; node < n; node++) {
+                int height = 0;
+                for (int i = node; i != -1; i = parent[i]) {
+                    if (heights[i] != 0) {
+                        height = height + heights[i];
+                        break;
+                    }
+                    height++;
+                }
+                heights[node] = height;
+                maxHeight = Math.max(maxHeight, height);
+            }
+            return maxHeight;
+        }
+
+        int breadthFirstComputeHeight(Node root) {
             int height = 1;
             List<Node> todo = root.children;
 

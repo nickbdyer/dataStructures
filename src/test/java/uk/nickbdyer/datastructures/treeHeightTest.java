@@ -50,5 +50,4 @@ public class treeHeightTest {
         assertEquals("50001\n", outContent.toString());
     }
 
-
 }
