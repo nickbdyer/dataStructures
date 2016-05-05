@@ -26,12 +26,9 @@ public class tree_height {
     }
 
     class Node {
-        private int data;
-        private Node parent;
         private List<Node> children;
 
-        public Node(int data) {
-            this.data = data;
+        public Node() {
             this.children = new ArrayList<Node>();
         }
 
@@ -39,13 +36,6 @@ public class tree_height {
             children.add(child);
         }
 
-        public void setParent(Node parent) {
-            this.parent = parent;
-       }
-
-        public int countChildren() {
-           return children.size();
-        }
     }
 
 
@@ -71,18 +61,12 @@ public class tree_height {
         void createTree() {
             List<Node> nodeList = new ArrayList<Node>();
             for (int i = 0; i < n; i++) {
-                Node node = new Node(i);
+                Node node = new Node();
                 nodeList.add(node);
-            } for (int i = 0; i < n; i++) {
-                if (parent[i] == -1) {
-                    root = nodeList.get(i);
-                } else {
-                    nodeList.get(i).setParent(nodeList.get(parent[i]));
-                }
             }
             for (int i = 0; i < n; i++) {
                 if (parent[i] == -1) {
-
+                    root = nodeList.get(i);
                 } else {
                     nodeList.get(parent[i]).addChild(nodeList.get(i));
                 }
