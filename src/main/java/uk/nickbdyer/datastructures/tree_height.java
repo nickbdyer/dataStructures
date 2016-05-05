@@ -25,30 +25,10 @@ public class tree_height {
         output.println(tree.computeHeight());
     }
 
-    class Node {
-        private int data;
-        private Node parent;
-
-        public Node(int data) {
-            this.data = data;
-        }
-
-        void setParent(Node parent) {
-            this.parent = parent;
-        }
-
-    }
-
-
     class TreeHeight {
         int n;
         int parent[];
         int heights[];
-//        Node root;
-//
-//        Node getRoot() {
-//            return root;
-//        }
 
         void read(InputStreamReader input) throws IOException {
             FastScanner in = new FastScanner(input);
@@ -58,7 +38,6 @@ public class tree_height {
             for (int i = 0; i < n; i++) {
                 parent[i] = in.nextInt();
             }
-//            createTree();
         }
 
         int computeHeight() {
@@ -81,33 +60,6 @@ public class tree_height {
             System.out.println(numOperations);
             return maxHeight;
         }
-
-//        void createTree() {
-//            List<Node> nodeList = new ArrayList<Node>();
-//            for (int i = 0; i < n; i++) {
-//                Node node = new Node(i);
-//                nodeList.add(node);
-//            }
-//            for (int i = 0; i < n; i++) {
-//                if (parent[i] == -1) {
-//                    root = nodeList.get(i);
-//                } else {
-//                    nodeList.get(i).setParent(nodeList.get(parent[i]));
-//                }
-//            }
-//        }
-//
-//        int newComputeHeight(Node root) {
-//            int maxHeight = 0;
-//            for (int node = 0; node < n; node++) {
-//                int height = 0;
-//                for (int i = node; i != -1; i = parent[i])
-//                    height++;
-//                maxHeight = Math.max(maxHeight, height);
-//            }
-//            return maxHeight;
-//        }
-
     }
 
     class FastScanner {
