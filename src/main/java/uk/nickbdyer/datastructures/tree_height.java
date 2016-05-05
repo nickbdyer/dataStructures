@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class tree_height {
 
@@ -44,7 +41,7 @@ public class tree_height {
 
         public void setParent(Node parent) {
             this.parent = parent;
-        }
+       }
 
         public int countChildren() {
            return children.size();
@@ -76,8 +73,7 @@ public class tree_height {
             for (int i = 0; i < n; i++) {
                 Node node = new Node(i);
                 nodeList.add(node);
-            }
-            for (int i = 0; i < n; i++) {
+            } for (int i = 0; i < n; i++) {
                 if (parent[i] == -1) {
                     root = nodeList.get(i);
                 } else {
@@ -94,12 +90,25 @@ public class tree_height {
         }
 
         int computeHeight(Node root) {
-            if (root.countChildren() == 0) return 0;
-            List<Integer> childHeights = new ArrayList<Integer>();
-            for (Node child : root.children) {
-               childHeights.add(computeHeight(child));
+            int height = 1;
+            List<Node> todo = root.children;
+
+            while(true) {
+                int nodeCount = todo.size();
+
+                if (nodeCount == 0) {
+                   return height;
+                } else {
+                    height++;
+                }
+
+                while(nodeCount > 0) {
+                    Node thisNode = todo.remove(0);
+
+                    todo.addAll(thisNode.children);
+                    nodeCount--;
+                }
             }
-            return 1 + Collections.max(childHeights);
         }
 
     }
