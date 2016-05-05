@@ -41,9 +41,7 @@ public class tree_height {
         }
 
         int computeHeight() {
-            // Replace this code with a faster implementation
             int maxHeight = 0;
-            int numOperations = 0;
             for (int node = 0; node < n; node++) {
                 int height = 0;
                 for (int i = node; i != -1; i = parent[i]) {
@@ -52,12 +50,10 @@ public class tree_height {
                         break;
                     }
                     height++;
-                    numOperations++;
                 }
                 heights[node] = height;
                 maxHeight = Math.max(maxHeight, height);
             }
-            System.out.println(numOperations);
             return maxHeight;
         }
     }
