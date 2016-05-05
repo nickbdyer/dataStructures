@@ -50,12 +50,4 @@ public class treeHeightTest {
         assertEquals("50001\n", outContent.toString());
     }
 
-    @Test
-    public void randomTest() throws IOException {
-        inContent = new ByteArrayInputStream("5\n-1 0 4 0 3".getBytes());
-        tree_height tree = new tree_height();
-        tree.run(new InputStreamReader(inContent), new PrintStream(outContent));
-    }
-
-
 }

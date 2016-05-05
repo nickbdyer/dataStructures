@@ -25,7 +25,7 @@ public class tree_height {
     public void run(InputStreamReader input, PrintStream output) throws IOException {
         TreeHeight tree = new TreeHeight();
         tree.read(input);
-        output.println(tree.computeHeight(tree.getRoot()));
+        output.println(tree.computeHeight());
     }
 
     class Node {
@@ -40,10 +40,6 @@ public class tree_height {
 
         public void addChild(Node child) {
             children.add(child);
-        }
-
-        public void setParent(Node parent) {
-            this.parent = parent;
         }
 
         public int countChildren() {
@@ -71,6 +67,18 @@ public class tree_height {
             createTree();
         }
 
+        int computeHeight() {
+            // Replace this code with a faster implementation
+            int maxHeight = 0;
+            for (int vertex = 0; vertex < n; vertex++) {
+                int height = 0;
+                for (int i = vertex; i != -1; i = parent[i])
+                    height++;
+                maxHeight = Math.max(maxHeight, height);
+            }
+            return maxHeight;
+        }
+
         void createTree() {
             List<Node> nodeList = new ArrayList<Node>();
             for (int i = 0; i < n; i++) {
@@ -81,23 +89,16 @@ public class tree_height {
                 if (parent[i] == -1) {
                     root = nodeList.get(i);
                 } else {
-                    nodeList.get(i).setParent(nodeList.get(parent[i]));
-                }
-            }
-            for (int i = 0; i < n; i++) {
-                if (parent[i] == -1) {
-
-                } else {
                     nodeList.get(parent[i]).addChild(nodeList.get(i));
                 }
             }
         }
 
-        int computeHeight(Node root) {
-            if (root.countChildren() == 0) return 0;
+        int newComputeHeight(Node root) {
+            if (root.countChildren() == 0) return 1;
             List<Integer> childHeights = new ArrayList<Integer>();
             for (Node child : root.children) {
-               childHeights.add(computeHeight(child));
+               childHeights.add(newComputeHeight(child));
             }
             return 1 + Collections.max(childHeights);
         }
