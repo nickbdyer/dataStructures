@@ -22,7 +22,7 @@ public class BuildHeapTest {
         inContent = new ByteArrayInputStream("5\n5 4 3 2 1".getBytes());
         BuildHeap buildHeap = new BuildHeap();
         buildHeap.solve(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("3\n1 4\n0 1\n1 3", outContent.toString());
+        assertEquals("3\n1 4\n0 1\n1 3\n", outContent.toString());
     }
 
     @Test
