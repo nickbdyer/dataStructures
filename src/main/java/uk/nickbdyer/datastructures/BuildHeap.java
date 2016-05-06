@@ -34,18 +34,36 @@ public class BuildHeap {
     private void generateSwaps() {
         swaps = new ArrayList<Swap>();
         int size = data.length;
-        for (int i = size - 1; i > Math.floor(size/2); --i) {
-            int j = i;
-            int parent = (int) Math.ceil((j - 1)/ 2);
-            while ((data[parent] > data[j])) {
-                swaps.add(new Swap(parent, j));
-                int tmp = data[j];
-                data[j] = data[parent];
-                data[parent] = tmp;
-                j = parent;
-                parent = (int) Math.ceil((j - 1)/ 2);
-            }
+        for (int i = (int) Math.floor(size / 2); i >= 0; i--) {
+            siftDown(size, i);
         }
+    }
+
+    private void siftDown(int size, int i) {
+        int maxIndex = i;
+        int left = leftChild(i);
+        if (left < size && data[left] < data[maxIndex]) {
+            maxIndex = left;
+        }
+        int right = rightChild(i);
+        if (right < size && data[right] < data[maxIndex]) {
+            maxIndex = right;
+        }
+        if (i != maxIndex) {
+            swaps.add(new Swap(i, maxIndex));
+            int tmp = data[i];
+            data[i] = data[maxIndex];
+            data[maxIndex] = tmp;
+            siftDown(size, maxIndex);
+        }
+    }
+
+    private int leftChild(int i) {
+        return 2 * i + 1;
+    }
+
+    private int rightChild(int i) {
+        return (2 * i) + 2;
     }
 
     public void solve(InputStreamReader input, PrintStream output) throws IOException {
