@@ -19,9 +19,9 @@ public class JobQueueTest {
 
     @Test
     public void makesJobQueue() throws IOException {
-        inContent = new ByteArrayInputStream("5\n5 4 3 2 1".getBytes());
+        inContent = new ByteArrayInputStream("2 5\n1 2 3 4 5".getBytes());
         JobQueue jobQueue = new JobQueue();
         jobQueue.solve(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("3\n1 4\n0 1\n1 3\n", outContent.toString());
+        assertEquals("0 0\n1 0\n0 1\n1 2\n0 4\n", outContent.toString());
     }
 }
