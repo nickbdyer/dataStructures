@@ -31,22 +31,70 @@ public class JobQueue {
         }
     }
 
+    class Thread {
+
+        private int id;
+        public long nextFreeTime;
+
+        public Thread(int id, long nextFreeTime) {
+            this.id = id;
+            this.nextFreeTime = nextFreeTime;
+        }
+
+    }
+
     private void assignJobs() {
-        // TODO: replace this code with a faster algorithm.
         assignedWorker = new int[jobs.length];
         startTime = new long[jobs.length];
-        long[] nextFreeTime = new long[numWorkers];
+
+        Thread[] workers = new Thread[numWorkers];
+        for (int i = 0; i < numWorkers; i++) {
+            workers[i] = new Thread(i, 0);
+        }
+
+        int size = workers.length;
+
         for (int i = 0; i < jobs.length; i++) {
             int duration = jobs[i];
-            int bestWorker = 0;
-            for (int j = 0; j < numWorkers; ++j) {
-                if (nextFreeTime[j] < nextFreeTime[bestWorker])
-                    bestWorker = j;
-            }
-            assignedWorker[i] = bestWorker;
-            startTime[i] = nextFreeTime[bestWorker];
-            nextFreeTime[bestWorker] += duration;
+            assignedWorker[i] = workers[0].id;
+            startTime[i] = workers[0].nextFreeTime;
+            workers[0].nextFreeTime += duration;
+            siftDown(workers, size, 0);
         }
+    }
+
+    private void siftDown(Thread[] workers, int size, int i) {
+        int maxIndex = i;
+        int left = leftChild(i);
+        if (left < size && workers[left].nextFreeTime <= workers[maxIndex].nextFreeTime) {
+            if (workers[left].nextFreeTime < workers[maxIndex].nextFreeTime) {
+                maxIndex = left;
+            } else if (workers[left].nextFreeTime == workers[maxIndex].nextFreeTime && workers[left].id < workers[maxIndex].id) {
+                maxIndex = left;
+            }
+        }
+        int right = rightChild(i);
+        if (right < size && workers[right].nextFreeTime <= workers[maxIndex].nextFreeTime) {
+            if (workers[right].nextFreeTime < workers[maxIndex].nextFreeTime) {
+                maxIndex = right;
+            } else if (workers[right].nextFreeTime == workers[maxIndex].nextFreeTime && workers[right].id < workers[maxIndex].id) {
+                maxIndex = right;
+            }
+        }
+        if (i != maxIndex) {
+            Thread tmp = workers[i];
+            workers[i] = workers[maxIndex];
+            workers[maxIndex] = tmp;
+            siftDown(workers, size, maxIndex);
+        }
+    }
+
+    private int leftChild(int i) {
+        return 2 * i + 1;
+    }
+
+    private int rightChild(int i) {
+        return (2 * i) + 2;
     }
 
     public void solve(InputStreamReader input, PrintStream output) throws IOException {
