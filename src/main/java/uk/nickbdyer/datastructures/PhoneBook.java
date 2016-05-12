@@ -3,6 +3,7 @@ package uk.nickbdyer.datastructures;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,12 +11,16 @@ import java.util.StringTokenizer;
 
 public class PhoneBook {
 
-    private FastScanner in = new FastScanner();
+    private FastScanner in;
     // Keep list of all existing (i.e. not deleted yet) contacts.
     private List<Contact> contacts = new ArrayList<Contact>();
 
     public static void main(String[] args) {
-        new PhoneBook().processQueries();
+        new PhoneBook(new InputStreamReader(System.in)).processQueries(new PrintStream(System.out));
+    }
+
+    public PhoneBook(InputStreamReader input) {
+        in = new FastScanner(input);
     }
 
     private Query readQuery() {
@@ -29,12 +34,12 @@ public class PhoneBook {
         }
     }
 
-    private void writeResponse(String response) {
-        System.out.println(response);
+    private void writeResponse(String response, PrintStream output) {
+        output.println(response);
     }
 
 
-    private void processQuery(Query query) {
+    private void processQuery(Query query, PrintStream output) {
         if (query.type.equals("add")) {
             // if we already have contact with such number,
             // we should rewrite contact's name
@@ -61,14 +66,14 @@ public class PhoneBook {
                     response = contact.name;
                     break;
                 }
-            writeResponse(response);
+            writeResponse(response, output);
         }
     }
 
-    public void processQueries() {
+    public void processQueries(PrintStream output) {
         int queryCount = in.nextInt();
         for (int i = 0; i < queryCount; ++i)
-            processQuery(readQuery());
+            processQuery(readQuery(), output);
     }
 
     static class Contact {
@@ -102,8 +107,8 @@ public class PhoneBook {
         BufferedReader br;
         StringTokenizer st;
 
-        FastScanner() {
-            br = new BufferedReader(new InputStreamReader(System.in));
+        FastScanner(InputStreamReader input) {
+            br = new BufferedReader(input);
         }
 
         String next() {
