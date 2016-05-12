@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -14,6 +13,7 @@ public class PhoneBook {
     private FastScanner in;
     // Keep list of all existing (i.e. not deleted yet) contacts.
     private List<Contact> contacts = new ArrayList<Contact>();
+    private String[] contactsArray = new String[10000000];
 
     public static void main(String[] args) {
         new PhoneBook(new InputStreamReader(System.in)).processQueries(new PrintStream(System.out));
@@ -41,32 +41,16 @@ public class PhoneBook {
 
     private void processQuery(Query query, PrintStream output) {
         if (query.type.equals("add")) {
-            // if we already have contact with such number,
-            // we should rewrite contact's name
-            boolean wasFound = false;
-            for (Contact contact : contacts)
-                if (contact.number == query.number) {
-                    contact.name = query.name;
-                    wasFound = true;
-                    break;
-                }
-            // otherwise, just add it
-            if (!wasFound)
-                contacts.add(new Contact(query.name, query.number));
+            contactsArray[query.number] = query.name;
         } else if (query.type.equals("del")) {
-            for (Iterator<Contact> it = contacts.iterator(); it.hasNext(); )
-                if (it.next().number == query.number) {
-                    it.remove();
-                    break;
-                }
+            contactsArray[query.number] = null;
         } else {
             String response = "not found";
-            for (Contact contact: contacts)
-                if (contact.number == query.number) {
-                    response = contact.name;
-                    break;
-                }
-            writeResponse(response, output);
+            if ((contactsArray[query.number]) != null) {
+                writeResponse(contactsArray[query.number], output);
+            } else {
+                writeResponse(response, output);
+            }
         }
     }
 
