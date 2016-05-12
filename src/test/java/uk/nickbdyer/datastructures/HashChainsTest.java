@@ -3,10 +3,7 @@ package uk.nickbdyer.datastructures;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -21,41 +18,46 @@ public class HashChainsTest {
     }
 
     @Test
-    public void sampleTestOne() {
-        String input = "12\n"+
-                "add 911 police\n" +
-                "add 76213 Mom\n" +
-                "add 17239 Bob\n" +
-                "find 76213\n" +
-                "find 910\n" +
-                "find 911\n" +
-                "del 910\n" +
-                "del 911\n" +
-                "find 911\n" +
-                "find 76213\n" +
-                "add 76213 daddy\n" +
-                "find 76213";
+    public void sampleTestOne() throws IOException {
+        String input = "5\n" +
+                        "12\n" +
+                        "add world\n" +
+                        "add HellO\n" +
+                        "check 4\n" +
+                        "find World\n" +
+                        "find world\n" +
+                        "del world\n" +
+                        "check 4\n" +
+                        "del HellO\n" +
+                        "add luck\n" +
+                        "add GooD\n" +
+                        "check 2\n" +
+                        "del good\n";
         inContent = new ByteArrayInputStream(input.getBytes());
-        PhoneBook phoneBook = new PhoneBook(new InputStreamReader(inContent));
-        phoneBook.processQueries(new PrintStream(outContent));
-        assertEquals("Mom\n" + "not found\n" + "police\n" + "not found\n" +
-                "Mom\n" + "daddy\n", outContent.toString());
+        HashChains hashChains = new HashChains();
+        hashChains.processQueries(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("HellO world \n" +
+                    "no\n" +
+                    "yes\n" +
+                    "HellO \n" +
+                    "GooD luck \n", outContent.toString());
     }
 
     @Test
-    public void sampleTestTwo() {
-        String input = "8\n" +
-                "find 3839442\n" +
-                "add 123456 me\n" +
-                "add 0 granny\n" +
-                "find 0\n" +
-                "find 123456\n" +
-                "del 0\n" +
-                "del 0\n" +
-                "find 0";
+    public void sampleTestTwo() throws IOException {
+        String input = "4\n" +
+                "8\n" +
+                "add test\n" +
+                "add test\n" +
+                "find test\n" +
+                "del test\n" +
+                "find test\n" +
+                "find Test\n" +
+                "add Test\n" +
+                "find Test\n";
         inContent = new ByteArrayInputStream(input.getBytes());
-        PhoneBook phoneBook = new PhoneBook(new InputStreamReader(inContent));
-        phoneBook.processQueries(new PrintStream(outContent));
-        assertEquals("not found\n" + "granny\n" + "me\n" + "not found\n", outContent.toString());
+        HashChains hashChains = new HashChains();
+        hashChains.processQueries(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("yes\n" + "no\n" + "no\n" + "yes\n", outContent.toString());
     }
 }

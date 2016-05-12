@@ -2,7 +2,6 @@ package uk.nickbdyer.datastructures;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -18,7 +17,7 @@ public class HashChains {
     private int multiplier = 263;
 
     public static void main(String[] args) throws IOException {
-        new HashChains().processQueries();
+        new HashChains().processQueries(new InputStreamReader(System.in), new PrintStream(System.out));
     }
 
     private int hashFunc(String s) {
@@ -71,10 +70,10 @@ public class HashChains {
         }
     }
 
-    public void processQueries() throws IOException {
+    public void processQueries(InputStreamReader input, PrintStream output) throws IOException {
         elems = new ArrayList<String>();
-        in = new FastScanner();
-        out = new PrintWriter(new BufferedOutputStream(System.out));
+        in = new FastScanner(input);
+        out = new PrintWriter(output);
         bucketCount = in.nextInt();
         int queryCount = in.nextInt();
         for (int i = 0; i < queryCount; ++i) {
@@ -103,8 +102,8 @@ public class HashChains {
         private BufferedReader reader;
         private StringTokenizer tokenizer;
 
-        public FastScanner() {
-            reader = new BufferedReader(new InputStreamReader(System.in));
+        public FastScanner(InputStreamReader input) {
+            reader = new BufferedReader(input);
             tokenizer = null;
         }
 
