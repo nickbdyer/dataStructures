@@ -48,15 +48,15 @@ public class tree_orders {
             if(root == null)
                 return result;
 
-            Stack<Node> s = new Stack<>();
+            Stack<Node> stack = new Stack<>();
             Node currentNode=root;
 
-            while (!s.empty() || currentNode != null) {
+            while (!stack.empty() || currentNode != null) {
                 if (currentNode != null) {
-                    s.push(currentNode);
+                    stack.push(currentNode);
                     currentNode = currentNode.left;
                 } else {
-                    Node n = s.pop();
+                    Node n = stack.pop();
                     result.add(n.data);
                     currentNode = n.right;
                 }
@@ -72,16 +72,57 @@ public class tree_orders {
             if(root == null)
                 return result;
 
+            Stack<Node> stack = new Stack<>();
+            stack.push(root);
+
+            while(!stack.empty()){
+                Node n = stack.pop();
+                result.add(n.data);
+
+                if(n.right != null){
+                    stack.push(n.right);
+                }
+                if(n.left != null){
+                    stack.push(n.left);
+                }
+            }
 
             return result;
         }
 
         List<Integer> postOrder() {
             ArrayList<Integer> result = new ArrayList<Integer>();
-            // Finish the implementation
-            // You may need to add a new recursive method to do that
+            Node root = nodeList.get(0);
 
-            return result;
+            if(root == null)
+                return result;
+
+            Stack<Node> stack = new Stack<>();
+            Node current = root;
+
+            while( true ) {
+
+                if( current != null ) {
+                    if( current.right != null )
+                        stack.push( current.right );
+                    stack.push( current );
+                    current = current.left;
+                    continue;
+                }
+
+                if( stack.isEmpty( ) )
+                    return result;
+                current = stack.pop( );
+
+                if( current.right != null && ! stack.isEmpty( ) && current.right == stack.peek( ) ) {
+                    stack.pop( );
+                    stack.push( current );
+                    current = current.right;
+                } else {
+                    result.add(current.data);
+                    current = null;
+                }
+            }
         }
 
         public void createTree() {

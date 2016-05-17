@@ -30,7 +30,7 @@ public class tree_orders_test {
         orders.run(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("1 2 3 4 5 \n" +
                      "4 2 1 3 5 \n" +
-                     "1 3 2 4 5 \n", outContent.toString());
+                     "1 3 2 5 4 \n", outContent.toString());
 
     }
     
