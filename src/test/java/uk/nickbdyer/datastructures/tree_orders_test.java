@@ -28,9 +28,9 @@ public class tree_orders_test {
         inContent = new ByteArrayInputStream(input.getBytes());
         tree_orders orders = new tree_orders();
         orders.run(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("1 2 3 4 5\n" +
-                     "4 2 1 3 5\n" +
-                     "1 3 2 4 5\n", outContent.toString());
+        assertEquals("1 2 3 4 5 \n" +
+                     "4 2 1 3 5 \n" +
+                     "1 3 2 4 5 \n", outContent.toString());
 
     }
     
@@ -50,8 +50,8 @@ public class tree_orders_test {
         inContent = new ByteArrayInputStream(input.getBytes());
         tree_orders orders = new tree_orders();
         orders.run(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("50 70 80 30 90 40 0 20 10 60\n" +
-                     "0 70 50 40 30 80 90 20 60 10\n" +
-                     "50 80 90 30 40 70 10 60 20 0\n", outContent.toString());
+        assertEquals("50 70 80 30 90 40 0 20 10 60 \n" +
+                     "0 70 50 40 30 80 90 20 60 10 \n" +
+                     "50 80 90 30 40 70 10 60 20 0 \n", outContent.toString());
     }
 }

@@ -26,6 +26,7 @@ public class tree_orders {
     public class TreeOrders {
         int n;
         int[] key, left, right;
+        List<Node> nodeList;
 
         void read(InputStreamReader input) throws IOException {
             FastScanner in = new FastScanner(input);
@@ -42,16 +43,35 @@ public class tree_orders {
 
         List<Integer> inOrder() {
             ArrayList<Integer> result = new ArrayList<Integer>();
-            // Finish the implementation
-            // You may need to add a new recursive method to do that
+            Node root = nodeList.get(0);
+
+            if(root == null)
+                return result;
+
+            Stack<Node> s = new Stack<>();
+            Node currentNode=root;
+
+            while (!s.empty() || currentNode != null) {
+                if (currentNode != null) {
+                    s.push(currentNode);
+                    currentNode = currentNode.left;
+                } else {
+                    Node n = s.pop();
+                    result.add(n.data);
+                    currentNode = n.right;
+                }
+            }
 
             return result;
         }
 
         List<Integer> preOrder() {
             ArrayList<Integer> result = new ArrayList<Integer>();
-            // Finish the implementation
-            // You may need to add a new recursive method to do that
+            Node root = nodeList.get(0);
+
+            if(root == null)
+                return result;
+
 
             return result;
         }
@@ -62,6 +82,32 @@ public class tree_orders {
             // You may need to add a new recursive method to do that
 
             return result;
+        }
+
+        public void createTree() {
+            nodeList = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                nodeList.add(new Node(key[i]));
+            }
+            for (int i = 0; i < n; i++) {
+                if (left[i] != -1) {
+                    nodeList.get(i).left = nodeList.get(left[i]);
+                }
+                if (right[i] != -1) {
+                    nodeList.get(i).right = nodeList.get(right[i]);
+                }
+            }
+        }
+    }
+
+    class Node {
+
+        public int data;
+        public Node left;
+        public Node right;
+
+        public Node(int data) {
+            this.data = data;
         }
     }
 
@@ -86,6 +132,7 @@ public class tree_orders {
     public void run(InputStreamReader input, PrintStream output) throws IOException {
         TreeOrders tree = new TreeOrders();
         tree.read(input);
+        tree.createTree();
         print(tree.inOrder(), output);
         print(tree.preOrder(), output);
         print(tree.postOrder(), output);
