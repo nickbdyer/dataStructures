@@ -11,6 +11,7 @@ public class HashChains {
     private PrintWriter out;
     // store all strings in one list
     private List<String> elems;
+    private List<List<String>> lists;
     // for hash function
     private int bucketCount;
     private int prime = 1000000007;
@@ -47,20 +48,19 @@ public class HashChains {
     private void processQuery(Query query) {
         switch (query.type) {
             case "add":
-                if (!elems.contains(query.s))
-                    elems.add(0, query.s);
+                if (!lists.get(hashFunc(query.s)).contains(query.s))
+                    lists.get(hashFunc(query.s)).add(0, query.s);
                 break;
             case "del":
-                if (elems.contains(query.s))
-                    elems.remove(query.s);
+                if (lists.get(hashFunc(query.s)).contains(query.s))
+                    lists.get(hashFunc(query.s)).remove(query.s);
                 break;
             case "find":
-                writeSearchResult(elems.contains(query.s));
+                writeSearchResult(lists.get(hashFunc(query.s)).contains(query.s));
                 break;
             case "check":
-                for (String cur : elems)
-                    if (hashFunc(cur) == query.ind)
-                        out.print(cur + " ");
+                for (String cur : lists.get(query.ind))
+                    out.print(cur + " ");
                 out.println();
                 // Uncomment the following if you want to play with the program interactively.
                 // out.flush();
@@ -75,6 +75,10 @@ public class HashChains {
         in = new FastScanner(input);
         out = new PrintWriter(output);
         bucketCount = in.nextInt();
+        lists = new ArrayList<>(bucketCount);
+        for (int i = 0; i < bucketCount; i++) {
+            lists.add(new ArrayList<String>());
+        }
         int queryCount = in.nextInt();
         for (int i = 0; i < queryCount; ++i) {
             processQuery(readQuery());
