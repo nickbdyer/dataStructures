@@ -196,15 +196,12 @@ public class SetRangeSum {
         if (N.right.right != null) {
             N.right.right.parent = null;
         }
-        if (N.right.right == null && N.right.left == null) {
-            root = null;
-        }
-        merge(N.right.left, N.right.right);
+        root = merge(N.right.left, N.right.right);
     }
 
     boolean find(int x) {
         VertexPair N = find(root, x);
-        if (N.right != null) {
+        if (N.left != null) {
             return true;
         }
         return false;
