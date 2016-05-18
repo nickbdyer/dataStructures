@@ -189,13 +189,24 @@ public class SetRangeSum {
     }
 
     void erase(int x) {
-        // Implement erase yourself
-
+        VertexPair N = find(root, x);
+        if (N.right.left != null) {
+            N.right.left.parent = null;
+        }
+        if (N.right.right != null) {
+            N.right.right.parent = null;
+        }
+        if (N.right.right == null && N.right.left == null) {
+            root = null;
+        }
+        merge(N.right.left, N.right.right);
     }
 
     boolean find(int x) {
-        // Implement find yourself
-
+        VertexPair N = find(root, x);
+        if (N.right != null) {
+            return true;
+        }
         return false;
     }
 
