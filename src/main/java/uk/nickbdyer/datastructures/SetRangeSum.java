@@ -222,7 +222,7 @@ public class SetRangeSum {
         if (middle != null) {
             ans = middle.sum;
         }
-        merge(merge(left, middle), right);
+        root = merge(merge(left, middle), right);
 
         return ans;
     }
