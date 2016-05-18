@@ -127,4 +127,18 @@ public class SetRangeSumTest {
                 "Found\n" +
                 "Not found\n", outContent.toString());
     }
+
+    @Test
+    public void zero() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "- 15\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Found\nFound\n", outContent.toString());
+    }
 }

@@ -1,4 +1,3 @@
-package uk.nickbdyer.datastructures;
 
 import java.io.*;
 import java.util.*;
@@ -191,7 +190,11 @@ public class SetRangeSum {
     void erase(int x) {
         VertexPair N = find(root, x);
         if (N.right == null) return;
-        if (N.right.key != x) return;
+        if (N.right.key != x) {
+            root = N.right;
+            return;
+        }
+
         if (N.right.left != null) {
             N.right.left.parent = null;
         }
