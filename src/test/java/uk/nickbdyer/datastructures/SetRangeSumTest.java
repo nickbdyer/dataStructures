@@ -209,7 +209,7 @@ public class SetRangeSumTest {
 
         inContent = new ByteArrayInputStream(input.getBytes());
         new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("10\nFound\nFound\n", outContent.toString());
+        assertEquals("10\nFound\nNot found\n", outContent.toString());
     }
 
     @Test
@@ -223,6 +223,6 @@ public class SetRangeSumTest {
 
         inContent = new ByteArrayInputStream(input.getBytes());
         new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
-        assertEquals("20\nFound\nFound\n", outContent.toString());
+        assertEquals("20\nNot found\nNot found\n", outContent.toString());
     }
 }
