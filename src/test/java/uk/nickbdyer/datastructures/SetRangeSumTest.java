@@ -36,7 +36,7 @@ public class SetRangeSumTest {
                        "+ 9\n" +
                        "s 0 9\n";
         inContent = new ByteArrayInputStream(input.getBytes());
-        SetRangeSum rangeSum = new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Not found\n" +
                      "Found\n" +
                      "3\n" +
@@ -56,10 +56,25 @@ public class SetRangeSumTest {
                        "- 0\n" +
                        "? 0\n";
         inContent = new ByteArrayInputStream(input.getBytes());
-        SetRangeSum rangeSum = new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Not found\n" +
                      "Found\n" +
                      "Not found\n", outContent.toString());
+    }
+
+    @Test
+    public void processBigNumbers() throws IOException {
+        String input = "5\n" +
+                "+ 491572259\n" +
+                "? 491572259\n" +
+                "? 899375874\n" +
+                "s 310971296 877523306\n" +
+                "+ 352411209\n";
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Found\n" +
+                "Not found\n" +
+                "491572259\n", outContent.toString());
     }
 
 //    @Test
@@ -194,12 +209,6 @@ public class SetRangeSumTest {
 //
 //    @Test
 //    public void testSolve_5_1() throws Exception {
-//        String inputStr = "5\n" +
-//                "+ 491572259\n" +
-//                "? 491572259\n" +
-//                "? 899375874\n" +
-//                "s 310971296 877523306\n" +
-//                "+ 352411209\n";
 //        InputStream inStream = new ByteArrayInputStream(inputStr.getBytes(StandardCharsets.UTF_8));
 //
 //        SetRangeSum.FastScanner in = new SetRangeSum.FastScanner(inStream);
