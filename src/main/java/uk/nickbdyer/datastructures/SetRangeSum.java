@@ -191,6 +191,7 @@ public class SetRangeSum {
     void erase(int x) {
         VertexPair N = find(root, x);
         if (N.right == null) return;
+        if (N.right.key != x) return;
         if (N.right.left != null) {
             N.right.left.parent = null;
         }
@@ -202,7 +203,7 @@ public class SetRangeSum {
 
     boolean find(int x) {
         VertexPair N = find(root, x);
-        return N.left != null;
+        return N.left != null && N.left.key == x;
     }
 
     long sum(int from, int to) {
