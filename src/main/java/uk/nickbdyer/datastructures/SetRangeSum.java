@@ -1,3 +1,4 @@
+package uk.nickbdyer.datastructures;
 
 import java.io.*;
 import java.util.*;
@@ -206,6 +207,7 @@ public class SetRangeSum {
 
     boolean find(int x) {
         VertexPair N = find(root, x);
+        root = N.right;
         return N.left != null && N.left.key == x;
     }
 

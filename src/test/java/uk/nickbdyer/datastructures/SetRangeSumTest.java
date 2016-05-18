@@ -129,7 +129,7 @@ public class SetRangeSumTest {
     }
 
     @Test
-    public void zero() throws IOException {
+    public void eraseInMiddle() throws IOException {
         String input = "5\n" +
                 "+ 10\n" +
                 "+ 20\n" +
@@ -140,5 +140,89 @@ public class SetRangeSumTest {
         inContent = new ByteArrayInputStream(input.getBytes());
         new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
         assertEquals("Found\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void eraseBelow() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "- 5\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Found\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void eraseAbove() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "- 35\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("Found\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void sumBelow() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "s 5 9\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("0\nFound\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void sumAbove() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "s 21 25\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("0\nFound\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void sumAroundMin() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "s 5 15\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("10\nFound\nFound\n", outContent.toString());
+    }
+
+    @Test
+    public void sumAroundMax() throws IOException {
+        String input = "5\n" +
+                "+ 10\n" +
+                "+ 20\n" +
+                "s 15 25\n" +
+                "? 10\n" +
+                "? 20\n";
+
+        inContent = new ByteArrayInputStream(input.getBytes());
+        new SetRangeSum(new InputStreamReader(inContent), new PrintStream(outContent));
+        assertEquals("20\nFound\nFound\n", outContent.toString());
     }
 }
